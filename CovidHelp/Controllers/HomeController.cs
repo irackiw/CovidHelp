@@ -15,11 +15,13 @@ namespace CovidHelp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IOfferRepository _offerRepository;
 
-        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository, IOfferRepository offerRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _offerRepository = offerRepository;
         }
 
         public IActionResult Index()
@@ -55,6 +57,22 @@ namespace CovidHelp.Controllers
                 Pesel = 1231234
             };
             var xd = _userRepository.InsertUser(user);
+            return View("Index");
+        }
+
+        public ActionResult GetUserModel()
+        {
+            var user = _userRepository.GetUser(1);
+            var userOffers = _offerRepository.GetOffersByUserId((int) user.Id);
+            //Tutaj bedzie mapper, narazie mozesz budowac ten model recznie
+            var userModel = new UserModel
+            {
+                Email = user.Email,
+                Id = (int) user.Id,
+                Name = $"{user.FirstName} {user.LastName}",
+                Pesel = user.Pesel,
+                UserOffers = userOffers
+            };
             return View("Index");
         }
     }

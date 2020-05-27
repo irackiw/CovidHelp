@@ -12,5 +12,6 @@ namespace CovidHelp.DataAccess.Repositories.Interfaces
         Offer UpdateUser(Offer offer);
         Offer InsertUser(Offer offer);
         void DeleteUser(int offerId);
+        IList<Offer> GetOffersByUserId(int userId);
     }
 }

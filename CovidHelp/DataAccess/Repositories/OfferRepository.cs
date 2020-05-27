@@ -21,6 +21,21 @@ namespace CovidHelp.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
+        public IList<Offer> GetOffersByUserId(int userId)
+        {
+            var userOffers = _context.UserOffer.Where(x => x.UserId == userId).ToList();
+            var offers = new List<Offer>();
+            if (userOffers.Any())
+            {
+                offers = (from offer in _context.Offer
+                    from userOffer in _context.UserOffer
+                    where offer.Id == userOffer.OfferId
+                    select offer).ToList();
+            }
+
+            return offers;
+        }
+
         public Offer GetUser(int offerId)
         {
             throw new NotImplementedException();
