@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CovidHelp.DataAccess.Context;
 using CovidHelp.DataAccess.Repositories;
 using CovidHelp.DataAccess.Repositories.Interfaces;
+using CovidHelp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,7 @@ namespace CovidHelp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<CovidContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CovidDbConnection")));
+            services.AddDbContextPool<CovidContext>(options => options.UseMySql(Configuration.GetConnectionString("CovidDbConnection")));
             services.AddControllersWithViews();
             AddDependencyInjections(services);
             
@@ -64,6 +65,8 @@ namespace CovidHelp
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();
+            services.AddScoped<IUserOfferRepository, UserOfferRepository>();
+            services.AddScoped<IUserAppliedOfferRepository, UserAppliedOfferRepository>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CovidHelp.DataAccess.Context;
 using CovidHelp.DataAccess.Repositories.Interfaces;
 using CovidHelp.DataTransfer;
+using CovidHelp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,19 +22,19 @@ namespace CovidHelp.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public UserDto GetUser(int userId)
+        public User GetUser(int userId)
         {
-            return _context.Users.FirstOrDefault(x => x.UserId == userId);
+            return _context.User.FirstOrDefault(x => x.Id == userId);
         }
 
-        public UserDto InsertUser(UserDto user)
+        public User InsertUser(User user)
         {
-            _context.Users.Add(user);
+            _context.User.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public UserDto UpdateUser(UserDto user)
+        public User UpdateUser(User user)
         {
             throw new NotImplementedException();
         }

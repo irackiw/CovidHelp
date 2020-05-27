@@ -43,5 +43,19 @@ namespace CovidHelp.Controllers
             var xd = _userRepository.GetUser(1);
             return View("Index");
         }
+
+        public ActionResult InsertTest()
+        {
+            var user = new User
+            {
+                CreatedAt = DateTime.Now,
+                FirstName = "Adam",
+                Email = "asd@dsagf.cas",
+                LastName = "wweda",
+                Pesel = 1231234
+            };
+            var xd = _userRepository.InsertUser(user);
+            return View("Index");
+        }
     }
 }

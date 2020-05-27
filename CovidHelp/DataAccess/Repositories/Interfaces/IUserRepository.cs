@@ -1,4 +1,5 @@
 ﻿using CovidHelp.DataTransfer;
+using CovidHelp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace CovidHelp.DataAccess.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        UserDto GetUser(int userId);
-        UserDto UpdateUser(UserDto user);
-        UserDto InsertUser(UserDto user);
+        User GetUser(int userId);
+        User UpdateUser(User user);
+        User InsertUser(User user);
         void DeleteUser(int userId);
     }
 }

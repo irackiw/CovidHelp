@@ -1,10 +1,11 @@
-﻿using CovidHelp.DataAccess.Context;
-using CovidHelp.DataAccess.Repositories.Interfaces;
+﻿using CovidHelp.DataAccess.Repositories.Interfaces;
 using CovidHelp.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CovidHelp.DataAccess.Context;
+using CovidHelp.Models;
 
 namespace CovidHelp.DataAccess.Repositories
 {
@@ -20,17 +21,17 @@ namespace CovidHelp.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public OfferDto GetUser(int offerId)
+        public Offer GetUser(int offerId)
         {
             throw new NotImplementedException();
         }
 
-        public OfferDto InsertUser(OfferDto offer)
+        public Offer InsertUser(Offer offer)
         {
             throw new NotImplementedException();
         }
 
-        public OfferDto UpdateUser(OfferDto offer)
+        public Offer UpdateUser(Offer offer)
         {
             throw new NotImplementedException();
         }
