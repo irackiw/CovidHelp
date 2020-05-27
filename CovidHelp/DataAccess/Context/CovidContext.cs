@@ -12,7 +12,7 @@ namespace CovidHelp.DataAccess.Context
         public DbSet<UserDto> Users { get; set; }
         public DbSet<OfferDto> Offers { get; set; }
         public DbSet<UserOfferDto> UserOffers { get; set; }
-        public DbSet<UserAppliedOffer> UserAppliedOffers { get; set; }
+        public DbSet<UserAppliedOfferDto> UserAppliedOffers { get; set; }
 
         public CovidContext(DbContextOptions<CovidContext> options) : base(options)
         {
