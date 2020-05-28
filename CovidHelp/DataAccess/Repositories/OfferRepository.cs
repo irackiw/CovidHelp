@@ -16,12 +16,13 @@ namespace CovidHelp.DataAccess.Repositories
         {
             _context = context;
         }
-        public void DeleteUser(int offerId)
+
+        public void DeleteOffer(int offerId)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Offer> GetOffersByUserId(int userId)
+        public IList<Offer> GetUserOffersByUserId(int userId)
         {
             var userOffers = _context.UserOffer.Where(x => x.UserId == userId).ToList();
             var offers = new List<Offer>();
@@ -36,19 +37,34 @@ namespace CovidHelp.DataAccess.Repositories
             return offers;
         }
 
-        public Offer GetUser(int offerId)
+        public IList<Offer> GetUserAppliedOffersByUserId(int userId)
         {
             throw new NotImplementedException();
         }
 
-        public Offer InsertUser(Offer offer)
+        public Offer GetOffer(int offerId)
         {
             throw new NotImplementedException();
         }
 
-        public Offer UpdateUser(Offer offer)
+        public Offer UpdateOffer(Offer offer)
         {
             throw new NotImplementedException();
+        }
+
+        public void InsertOffer(Offer offer, int userId)
+        {
+            if (offer != null)
+            {
+                _context.Offer.Add(offer);
+                _context.UserOffer.Add(new UserOffer
+                {
+                    CreatedAt = DateTime.Now,
+                    Offer = offer,
+                    UserId = (uint) userId
+                });
+                _context.SaveChanges();
+            }
         }
     }
 }

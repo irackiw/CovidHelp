@@ -8,10 +8,11 @@ namespace CovidHelp.DataAccess.Repositories.Interfaces
 {
     public interface IOfferRepository
     {
-        Offer GetUser(int offerId);
-        Offer UpdateUser(Offer offer);
-        Offer InsertUser(Offer offer);
-        void DeleteUser(int offerId);
-        IList<Offer> GetOffersByUserId(int userId);
+        Offer GetOffer(int offerId);
+        Offer UpdateOffer(Offer offer);
+        void InsertOffer(Offer offer, int userId);
+        void DeleteOffer(int offerId);
+        IList<Offer> GetUserOffersByUserId(int userId);
+        IList<Offer> GetUserAppliedOffersByUserId(int userId);
     }
 }

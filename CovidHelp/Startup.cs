@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CovidHelp.DataAccess.Context;
 using CovidHelp.DataAccess.Repositories;
 using CovidHelp.DataAccess.Repositories.Interfaces;
+using CovidHelp.Mappings;
 using CovidHelp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +30,12 @@ namespace CovidHelp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserMappingProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddDbContextPool<CovidContext>(options => options.UseMySql(Configuration.GetConnectionString("CovidDbConnection")));
             services.AddControllersWithViews();
             AddDependencyInjections(services);
@@ -65,8 +73,6 @@ namespace CovidHelp
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();
-            services.AddScoped<IUserOfferRepository, UserOfferRepository>();
-            services.AddScoped<IUserAppliedOfferRepository, UserAppliedOfferRepository>();
         }
     }
 }

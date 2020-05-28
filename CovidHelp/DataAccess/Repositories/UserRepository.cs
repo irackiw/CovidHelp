@@ -27,11 +27,13 @@ namespace CovidHelp.DataAccess.Repositories
             return _context.User.FirstOrDefault(x => x.Id == userId);
         }
 
-        public User InsertUser(User user)
+        public void InsertUser(User user)
         {
-            _context.User.Add(user);
-            _context.SaveChanges();
-            return user;
+            if (user != null)
+            {
+                _context.User.Add(user);
+                _context.SaveChanges();
+            }
         }
 
         public User UpdateUser(User user)
