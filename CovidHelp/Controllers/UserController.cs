@@ -62,9 +62,8 @@ namespace CovidHelp.Controllers
                 userLoginModel.validationError = true;
                 return View(userLoginModel);
             }
-
-            HttpContext.Session.SetString("UserID", user.Id.ToString());
-            HttpContext.Session.SetString("UserFirstname", user.FirstName.ToString());
+          //  HttpContext.Session.SetString("UserID", user.Id.ToString());
+         //   HttpContext.Session.SetString("UserFirstname", user.FirstName.ToString());
 
             return Redirect("/");
         }
