@@ -12,6 +12,7 @@ namespace CovidHelp.DataAccess.Repositories
     public class OfferRepository : IOfferRepository
     {
         private readonly CovidContext _context;
+
         public OfferRepository(CovidContext context)
         {
             _context = context;
@@ -19,7 +20,8 @@ namespace CovidHelp.DataAccess.Repositories
 
         public void DeleteOffer(int offerId)
         {
-            throw new NotImplementedException();
+            var offer = GetOffer(offerId);
+            _context.Offer.Remove(offer);
         }
 
         public IList<Offer> GetUserOffersByUserId(int userId)
@@ -39,12 +41,22 @@ namespace CovidHelp.DataAccess.Repositories
 
         public IList<Offer> GetUserAppliedOffersByUserId(int userId)
         {
-            throw new NotImplementedException();
+            var userOffers = _context.UserAppliedOffer.Where(x => x.UserId == userId).ToList();
+            var offers = new List<Offer>();
+            if (userOffers.Any())
+            {
+                offers = (from offer in _context.Offer
+                          from userOffer in _context.UserOffer
+                          where offer.Id == userOffer.OfferId
+                          select offer).ToList();
+            }
+
+            return offers;
         }
 
         public Offer GetOffer(int offerId)
         {
-            throw new NotImplementedException();
+           return _context.Offer.Where(x => x.Id == offerId).First();
         }
 
         public Offer UpdateOffer(Offer offer)
