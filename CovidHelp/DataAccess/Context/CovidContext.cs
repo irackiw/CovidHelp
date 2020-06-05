@@ -99,11 +99,24 @@ namespace CovidHelp.DataAccess.Context
                     .HasColumnName("created_at")
                     .HasColumnType("datetime");
 
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasColumnName("email")
                     .HasColumnType("varchar(100)")
                     .HasDefaultValueSql("''")
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnName("password")
+                    .HasColumnType("varchar(255)")
+                    .IsRequired()
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 

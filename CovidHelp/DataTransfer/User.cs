@@ -16,9 +16,10 @@ namespace CovidHelp.DataTransfer
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? Pesel { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt{ get; set; }
         public string Email { get; set; }
-
+        public string Password { get; set; }
         public virtual ICollection<UserAppliedOffer> UserAppliedOffer { get; set; }
         public virtual ICollection<UserOffer> UserOffer { get; set; }
     }

@@ -51,15 +51,15 @@ namespace CovidHelp.Controllers
 
         
 
-        public ActionResult GetUserModel()
-        {
-            var user = _userRepository.GetUser(1);
-            var userOffers = _offerRepository.GetUserOffersByUserId((int) user.Id);
-            var userModel = _mapper.Map<UserModel>(user);
-            userModel.UserOffers = userOffers;
+        //public ActionResult GetUserModel()
+        //{
+        //    var user = _userRepository.GetUser(1);
+        //    var userOffers = _offerRepository.GetUserOffersByUserId((int) user.Id);
+        //    var userModel = _mapper.Map<UserModel>(user);
+        //  //  userModel.UserOffers = userOffers;
 
-            return View("Index");
-        }
+        //    //return View("Index");
+        //}
 
         public ActionResult InsertUserOffer()
         {

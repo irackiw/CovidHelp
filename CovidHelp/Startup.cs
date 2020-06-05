@@ -30,10 +30,22 @@ namespace CovidHelp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
+                mc.AddProfile(new OfferMappingProfile());
                 mc.AddProfile(new UserMappingProfile());
             });
+
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddDbContextPool<CovidContext>(options => options.UseMySql(Configuration.GetConnectionString("CovidDbConnection")));
@@ -55,6 +67,8 @@ namespace CovidHelp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -68,11 +82,14 @@ namespace CovidHelp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
         public void AddDependencyInjections(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
     }
 }

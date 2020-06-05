@@ -13,8 +13,8 @@ namespace CovidHelp.Models
         public int? Pesel { get; set; }
         public string Email { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public IList<Offer> UserOffers { get; set; }
-        public IList<Offer> UserAppliedOffer { get; set; }
+        public IList<UserOffer> UserOffers { get; set; }
+        public IList<UserAppliedOffer> UserAppliedOffer { get; set; }
 
     }
 }
