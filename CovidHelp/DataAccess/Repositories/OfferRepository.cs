@@ -9,6 +9,7 @@ namespace CovidHelp.DataAccess.Repositories
     public class OfferRepository : IOfferRepository
     {
         private readonly CovidContext _context;
+
         public OfferRepository(CovidContext context)
         {
             _context = context;
@@ -16,7 +17,8 @@ namespace CovidHelp.DataAccess.Repositories
 
         public void DeleteOffer(int offerId)
         {
-            throw new NotImplementedException();
+            var offer = GetOffer(offerId);
+            _context.Offer.Remove(offer);
         }
         //Cos mi tutaj nie pasuje, trzeba dodac dodawanie ofert zeby to przetestowac, ale wydaje mi sie ze cos tutaj zjebalem
         public IList<Offer> GetUserOffersByUserId(int userId)
@@ -51,7 +53,7 @@ namespace CovidHelp.DataAccess.Repositories
 
         public Offer GetOffer(int offerId)
         {
-            throw new NotImplementedException();
+           return _context.Offer.Where(x => x.Id == offerId).First();
         }
 
         public Offer UpdateOffer(Offer offer)

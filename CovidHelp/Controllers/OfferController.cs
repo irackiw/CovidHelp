@@ -16,11 +16,14 @@ namespace CovidHelp.Controllers
     public class OfferController : Controller
     {
         private readonly IOfferRepository _offerRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public OfferController(IOfferRepository offerRepository, IMapper mapper)
+        public OfferController(IOfferRepository offerRepository, IUserRepository userRepository, IMapper mapper)
         {
-            _offerRepository = offerRepository;
+          _offerRepository = offerRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
 
@@ -45,7 +48,10 @@ namespace CovidHelp.Controllers
             
             var offer = _mapper.Map<Offer>(offerCreateModel);
             offer.CreatedAt = DateTime.Now;
-            // _offerRepository.InsertOffer(offer);
+
+            // @TODO use userId session variable
+            _offerRepository.InsertOffer(offer, 3);
+
             return View();
 
         }
