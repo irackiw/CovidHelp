@@ -1,0 +1,92 @@
+﻿@model CovidHelp.Models.UserModel
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Detail</h1>
+
+<div>
+    <h4>UserModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pesel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pesel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.UserOffers.Any())
+    {
+        <table>
+            <thead>
+            <tr>Description</tr>
+            <tr>Valid to</tr>
+            <tr>Title</tr>
+            <tr>City</tr>
+            </thead>
+            <tbody>
+            @foreach (var userOffer in Model.UserOffers)
+            {
+                <tr>@userOffer.Description</tr>
+                <tr>@userOffer.ValidTo</tr>
+                <tr>@userOffer.Title</tr>
+                <tr>@userOffer.City</tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    @if (Model.UserAppliedOffer.Any())
+    {
+        <table>
+            <thead>
+                <tr>Description</tr>
+                <tr>Valid to</tr>
+                <tr>Title</tr>
+                <tr>City</tr>
+            </thead>
+            <tbody>
+                @foreach (var userAppliedOffer in Model.UserAppliedOffer)
+                {
+                    <tr>@userAppliedOffer.Description</tr>
+                    <tr>@userAppliedOffer.ValidTo</tr>
+                    <tr>@userAppliedOffer.Title</tr>
+                    <tr>@userAppliedOffer.City</tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
