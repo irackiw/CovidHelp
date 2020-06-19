@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CovidHelp.DataTransfer
 {
@@ -8,6 +9,7 @@ namespace CovidHelp.DataTransfer
         public uint? UserId { get; set; }
         public uint? OfferId { get; set; }
         public DateTime CreatedAt { get; set; }
+
         public virtual Offer Offer { get; set; }
         public virtual User User { get; set; }
     }

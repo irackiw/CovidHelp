@@ -1,14 +1,11 @@
-﻿using CovidHelp.DataAccess.Context;
-using CovidHelp.DataAccess.Repositories.Interfaces;
+﻿using CovidHelp.DataAccess.Repositories.Interfaces;
 using CovidHelp.DataTransfer;
 using CovidHelp.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CovidHelp.DataAccess.Repositories
 {
@@ -24,19 +21,29 @@ namespace CovidHelp.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
+        public IList<User> GetUsers()
+        {
+            return _context.User.ToList();
+        }
+
+        public IList<User> GetUsers(IList<int> userIds)
+        {
+            return _context.User.Where(u => userIds.Contains((int)u.Id)).ToList();
+        }
+
         public User GetUser(int userId)
         {
             return _context.User.FirstOrDefault(x => x.Id == userId);
         }
 
-        public User Login(UserLoginModel userLoginModel)
+        public User Login(UserLogin userLogin)
         {
-            var User = _context.User.FirstOrDefault(x => x.Email == userLoginModel.Email);
+            var User = _context.User.FirstOrDefault(x => x.Email == userLogin.Email);
 
             if (null == User) return User;
 
-            var passwordValidated = VerifyPassword(User.Password, userLoginModel.Password);
-            if (!passwordValidated) return null;
+            /*var passwordValidated = VerifyPassword(User.Password, userLogin.Password);
+            if (!passwordValidated) return null;*/
 
             return User;
         }

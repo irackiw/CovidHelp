@@ -6,6 +6,7 @@ using AutoMapper;
 using CovidHelp.DataAccess.Repositories.Interfaces;
 using CovidHelp.DataTransfer;
 using CovidHelp.Models.Offer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -30,16 +31,18 @@ namespace CovidHelp.Controllers
         }
 
         // GET: /<controller>/
+        [Authorize("Logged")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize("Logged")]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(CreateModel offerCreateModel)
         {
-
+            
             var offer = _mapper.Map<Offer>(offerCreateModel);
             offer.CreatedAt = DateTime.Now;
             // _offerRepository.InsertOffer(offer);

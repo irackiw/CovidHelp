@@ -1,7 +1,8 @@
-﻿using CovidHelp.DataTransfer;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CovidHelp.DataAccess.Context
+namespace CovidHelp.DataTransfer
 {
     public partial class CovidContext : DbContext
     {
@@ -16,6 +17,10 @@ namespace CovidHelp.DataAccess.Context
         public virtual DbSet<UserAppliedOffer> UserAppliedOffer { get; set; }
         public virtual DbSet<UserOffer> UserOffer { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+           
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -99,24 +104,11 @@ namespace CovidHelp.DataAccess.Context
                     .HasColumnName("created_at")
                     .HasColumnType("datetime");
 
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnName("updated_at")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasColumnName("email")
                     .HasColumnType("varchar(100)")
                     .HasDefaultValueSql("''")
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnName("password")
-                    .HasColumnType("varchar(255)")
-                    .IsRequired()
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
@@ -126,15 +118,31 @@ namespace CovidHelp.DataAccess.Context
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
+                entity.Property(e => e.IsAdmin)
+                    .HasColumnName("is_admin")
+                    .HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.LastName)
                     .HasColumnName("last_name")
                     .HasColumnType("varchar(50)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnName("password")
+                    .HasColumnType("varchar(255)")
+                    .HasDefaultValueSql("''")
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+
                 entity.Property(e => e.Pesel)
                     .HasColumnName("pesel")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<UserAppliedOffer>(entity =>

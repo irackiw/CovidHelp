@@ -3,9 +3,6 @@ using CovidHelp.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CovidHelp.DataAccess.Context;
-using CovidHelp.Models;
 
 namespace CovidHelp.DataAccess.Repositories
 {
@@ -21,7 +18,7 @@ namespace CovidHelp.DataAccess.Repositories
         {
             throw new NotImplementedException();
         }
-
+        //Cos mi tutaj nie pasuje, trzeba dodac dodawanie ofert zeby to przetestowac, ale wydaje mi sie ze cos tutaj zjebalem
         public IList<Offer> GetUserOffersByUserId(int userId)
         {
             var userOffers = _context.UserOffer.Where(x => x.UserId == userId).ToList();
@@ -36,10 +33,20 @@ namespace CovidHelp.DataAccess.Repositories
 
             return offers;
         }
-
+        //Cos mi tutaj nie pasuje, trzeba dodac dodawanie ofert zeby to przetestowac, ale wydaje mi sie ze cos tutaj zjebalem 
         public IList<Offer> GetUserAppliedOffersByUserId(int userId)
         {
-            throw new NotImplementedException();
+            var userAppliedOffers = _context.UserAppliedOffer.Where(x => x.UserId == userId).ToList();
+            var offers = new List<Offer>();
+            if (userAppliedOffers.Any())
+            {
+                offers = (from offer in _context.Offer
+                    from userOffer in _context.UserAppliedOffer
+                    where offer.Id == userOffer.OfferId
+                    select offer).ToList();
+            }
+
+            return offers;
         }
 
         public Offer GetOffer(int offerId)

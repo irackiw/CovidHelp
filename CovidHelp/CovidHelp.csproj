@@ -23,6 +23,5 @@
   <ItemGroup>
     <Folder Include="Views\Offer\" />
     <Folder Include="Models\Offer\" />
-    <Folder Include="Models\User\" />
   </ItemGroup>
 </Project>

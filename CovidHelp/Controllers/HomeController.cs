@@ -49,17 +49,18 @@ namespace CovidHelp.Controllers
             return View("Index");
         }
 
-        
 
-        //public ActionResult GetUserModel()
-        //{
-        //    var user = _userRepository.GetUser(1);
-        //    var userOffers = _offerRepository.GetUserOffersByUserId((int) user.Id);
-        //    var userModel = _mapper.Map<UserModel>(user);
-        //  //  userModel.UserOffers = userOffers;
 
-        //    //return View("Index");
-        //}
+        public ActionResult GetUserModel()
+        {
+            var user = _userRepository.GetUsers();
+            var use2r = _userRepository.GetUser(8);
+            //var userOffers = _offerRepository.GetUserOffersByUserId((int)user.Id);
+            var userModel = _mapper.Map<IList<UserModel>>(user);
+            //  userModel.UserOffers = userOffers;
+
+            return View("Index");
+        }
 
         public ActionResult InsertUserOffer()
         {

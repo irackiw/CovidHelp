@@ -11,8 +11,10 @@ namespace CovidHelp.DataAccess.Repositories.Interfaces
     {
         User GetUser(int userId);
         User UpdateUser(User user);
-        User Login(UserLoginModel userLoginModel);
+        User Login(UserLogin userLogin);
         void InsertUser(User user);
         void DeleteUser(int userId);
+        IList<User> GetUsers();
+        IList<User> GetUsers(IList<int> userIds);
     }
 }

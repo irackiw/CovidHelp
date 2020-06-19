@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using CovidHelp.DataAccess.Context;
 using CovidHelp.DataAccess.Repositories;
 using CovidHelp.DataAccess.Repositories.Interfaces;
+using CovidHelp.DataTransfer;
 using CovidHelp.Mappings;
-using CovidHelp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CovidHelp
 {
@@ -31,14 +27,39 @@ namespace CovidHelp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddSession();
 
-            services.AddSession(options =>
+            services.AddAuthentication(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.RequireAuthenticatedSignIn = false;
+               
+            }).AddCookie(options =>
+            {
+                options.LoginPath = "/User/Login";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+
             });
+
+           /* services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/User/Login";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            });*/
+
+            services.AddAuthorization(policy =>
+            {
+                policy.AddPolicy("Logged", claimPolicy => claimPolicy.RequireClaim("Id"));
+                policy.AddPolicy("Admin", claimPolicy => claimPolicy.RequireClaim("Admin", "True"));
+            });
+            /*services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                
+            });*/
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -50,6 +71,7 @@ namespace CovidHelp
             services.AddSingleton(mapper);
             services.AddDbContextPool<CovidContext>(options => options.UseMySql(Configuration.GetConnectionString("CovidDbConnection")));
             services.AddControllersWithViews();
+
             AddDependencyInjections(services);
             
         }
@@ -67,14 +89,19 @@ namespace CovidHelp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseSession();
+            //app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
+            
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            
 
             app.UseEndpoints(endpoints =>
             {
@@ -88,8 +115,6 @@ namespace CovidHelp
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
         }
     }
 }

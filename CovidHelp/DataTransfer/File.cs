@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using CovidHelp.Models;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CovidHelp.DataTransfer
 {
