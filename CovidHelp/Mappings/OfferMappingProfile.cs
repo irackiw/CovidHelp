@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CovidHelp.DataTransfer;
+using CovidHelp.Models;
 using CovidHelp.Models.Offer;
 using CovidHelp.Resolvers;
 
@@ -18,6 +19,12 @@ namespace CovidHelp.Mappings
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.ValidTo, opt => opt.MapFrom(src => src.ValidTo))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City));
+
+            CreateMap<ApplyOfferModel, UserAppliedOffer>()
+                .ForMember(dest => dest.OfferId, opt => opt.MapFrom(src => src.OfferId))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+
+            CreateMap<Offer, OfferModel>();
 
         }
     }

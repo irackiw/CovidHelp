@@ -14,5 +14,7 @@ namespace CovidHelp.DataAccess.Repositories.Interfaces
         void DeleteOffer(int offerId);
         IList<Offer> GetUserOffersByUserId(int userId);
         IList<Offer> GetUserAppliedOffersByUserId(int userId);
+        void ApplyOffer(UserAppliedOffer userAppliedOffer);
+        IList<Offer> GetOffers();
     }
 }

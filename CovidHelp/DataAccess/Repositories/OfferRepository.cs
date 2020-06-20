@@ -51,9 +51,21 @@ namespace CovidHelp.DataAccess.Repositories
             return offers;
         }
 
+        public void ApplyOffer(UserAppliedOffer userAppliedOffer)
+        {
+            userAppliedOffer.CreatedAt = DateTime.Now;
+            _context.UserAppliedOffer.Add(userAppliedOffer);
+            _context.SaveChanges();
+        }
+
+        public IList<Offer> GetOffers()
+        {
+            return _context.Offer.ToList();
+        }
+
         public Offer GetOffer(int offerId)
         {
-           return _context.Offer.Where(x => x.Id == offerId).First();
+           return _context.Offer.First(x => x.Id == offerId);
         }
 
         public Offer UpdateOffer(Offer offer)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CovidHelp.DataAccess.Repositories.Interfaces;
 using CovidHelp.DataTransfer;
+using CovidHelp.Models;
 using CovidHelp.Models.Offer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,12 @@ namespace CovidHelp.Controllers
 
 
         // GET: /<controller>/
+        [Authorize("Logged")]
         public IActionResult Index()
         {
-            return View();
+            var offers = _offerRepository.GetOffers();
+            var offerModels = _mapper.Map<List<OfferModel>>(offers);
+            return View(offerModels);
         }
 
         // GET: /<controller>/
@@ -48,12 +52,27 @@ namespace CovidHelp.Controllers
             
             var offer = _mapper.Map<Offer>(offerCreateModel);
             offer.CreatedAt = DateTime.Now;
+            //nie bedzie nulla bo przeszedl autoryzacje
 
-            // @TODO use userId session variable
-            _offerRepository.InsertOffer(offer, 3);
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals("Id")).Value);
+
+            _offerRepository.InsertOffer(offer, userId);
 
             return View();
 
         }
+
+        [HttpPost]
+        [Authorize("Logged")]
+        public IActionResult ApplyOffer(ApplyOfferModel model)
+        {
+            var userAppliedOffer = _mapper.Map<UserAppliedOffer>(model);
+            _offerRepository.ApplyOffer(userAppliedOffer);
+            return View();
+        }
+
+       
+
+
     }
 }
